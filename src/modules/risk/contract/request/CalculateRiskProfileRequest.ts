@@ -5,7 +5,6 @@ import {
   IsIn,
   IsInstance,
   IsInt,
-  IsNumber,
   Min,
   ValidateNested
 } from 'class-validator'
@@ -28,7 +27,7 @@ class Vehicle {
   year: number
 }
 
-export class CalculateRiskRequest {
+export class CalculateRiskProfileRequest {
   @IsDefined()
   @IsInt()
   @Min(0)
@@ -38,11 +37,6 @@ export class CalculateRiskRequest {
   @IsInt()
   @Min(0)
   dependents: number
-
-  @ValidateNested()
-  @IsInstance(House)
-  @Type(() => House)
-  house: House
 
   @IsDefined()
   @IsInt()
@@ -56,15 +50,21 @@ export class CalculateRiskRequest {
   martial_status: MartialStatusEnum
 
   @IsDefined()
-  @IsNumber({}, { each: true })
-  @IsIn([0, 1, 2], { each: true })
+  @IsInt({ each: true })
+  @IsIn([0, 1, true, false], { each: true })
+  @Type(() => Number)
   @IsArrayWithExactElements(3, {
     message: `$property must be a valid array with exactly $constraint1 elements`
   })
   risk_questions: number[]
 
   @ValidateNested()
+  @IsInstance(House)
+  @Type(() => House)
+  house?: House
+
+  @ValidateNested()
   @IsInstance(Vehicle)
   @Type(() => Vehicle)
-  vehicle: Vehicle
+  vehicle?: Vehicle
 }

@@ -1,19 +1,21 @@
 import { Controller, Post, Body, Res } from '@nestjs/common'
 import { Response } from 'express'
 import { HttpResult } from 'src/core/global/HttpResult'
-import { CalculateRiskRequest } from 'src/modules/risk/contract/request/CalculateRiskRequest'
-import { CalculateRiskUseCase } from '../../application/usecases/CalculateRiskUseCase/CalculateRiskUseCase'
+import { CalculateRiskProfileRequest } from 'src/modules/risk/contract/request/CalculateRiskProfileRequest'
+import { CalculateRiskProfileUseCase } from '../../application/usecases/CalculateRiskProfileUseCase/CalculateRiskProfileUseCase'
 
 @Controller('/risk')
 export class RiskController {
-  constructor(private readonly calculateRiskUseCase: CalculateRiskUseCase) {}
+  constructor(
+    private readonly calculateRiskProfileUseCase: CalculateRiskProfileUseCase
+  ) {}
 
-  @Post()
-  async calculateRisk(
-    @Body() body: CalculateRiskRequest,
+  @Post('/profile')
+  async calculateRiskProfile(
+    @Body() body: CalculateRiskProfileRequest,
     @Res() res: Response
   ) {
-    const response = await this.calculateRiskUseCase.execute(body)
+    const response = await this.calculateRiskProfileUseCase.execute(body)
     HttpResult.OK(res, response)
   }
 }
