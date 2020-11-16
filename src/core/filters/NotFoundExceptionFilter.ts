@@ -1,3 +1,4 @@
+import { HttpResult } from '@core/global/HttpResult'
 import {
   Catch,
   ExceptionFilter,
@@ -5,7 +6,6 @@ import {
   NotFoundException
 } from '@nestjs/common'
 import { Response } from 'express'
-import { HttpResult } from 'src/core/global/HttpResult'
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {

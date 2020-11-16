@@ -1,4 +1,4 @@
-import { RiskScoreEnum } from 'src/modules/risk/domain/contracts/enum/RiskScoreEnum'
+import { RiskScoreEnum } from '@risk/domain/contracts/enum/RiskScoreEnum'
 
 export interface CalculateRiskProfileResponse {
   auto?: RiskScoreEnum

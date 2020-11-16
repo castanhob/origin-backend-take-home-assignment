@@ -1,7 +1,7 @@
+import { NotFoundExceptionFilter } from '@core/filters/NotFoundExceptionFilter'
+import { ValidationExceptionFilter } from '@core/filters/ValidationExceptionFilter'
+import { ClassValidatorValidationPipe } from '@core/pipes/ClassValidatorValidationPipe'
 import { NestFactory } from '@nestjs/core'
-import { NotFoundExceptionFilter } from 'src/core/filters/NotFoundExceptionFilter'
-import { ValidationExceptionFilter } from 'src/core/filters/ValidationExceptionFilter'
-import { ClassValidatorValidationPipe } from 'src/core/pipes/ClassValidatorValidationPipe'
 import { AppModule } from './AppModule'
 
 async function bootstrap() {

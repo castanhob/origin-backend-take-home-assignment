@@ -1,7 +1,7 @@
+import { DateUtils } from '@core/utils/DateUtil'
 import { Injectable } from '@nestjs/common'
-import { DateUtils } from 'src/core/utils/DateUtil'
-import { RiskScoreEnum } from 'src/modules/risk/domain/contracts/enum/RiskScoreEnum'
-import { CalculateRiskProfileRequest } from 'src/modules/risk/domain/contracts/request/CalculateRiskProfileRequest'
+import { RiskScoreEnum } from '@risk/domain/contracts/enum/RiskScoreEnum'
+import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/CalculateRiskProfileRequest'
 
 @Injectable()
 export class CalculateAutoRiskScoreUseCase {

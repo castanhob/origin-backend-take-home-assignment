@@ -1,3 +1,6 @@
+import { IsArrayWithExactElements } from '@core/decorators/IsArrayWithExactElements'
+import { MaritalStatusEnum } from '@risk/domain/contracts/enum/MaritalStatusEnum'
+import { OwnershipStatusEnum } from '@risk/domain/contracts/enum/OwnershipStatusEnum'
 import { Type } from 'class-transformer'
 import {
   IsDefined,
@@ -8,9 +11,6 @@ import {
   Min,
   ValidateNested
 } from 'class-validator'
-import { IsArrayWithExactElements } from 'src/core/decorators/IsArrayWithExactElements'
-import { MaritalStatusEnum } from 'src/modules/risk/domain/contracts/enum/MaritalStatusEnum'
-import { OwnershipStatusEnum } from 'src/modules/risk/domain/contracts/enum/OwnershipStatusEnum'
 
 class House {
   @IsDefined()

@@ -11,12 +11,12 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "concurrently --handle-input \"rimraf dist && tsc -w -p tsconfig.build.json\" \"wait-on dist/App.js && nodemon\" ",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node -r tsconfig-paths/register -r ts-node/register dist/App.js",
+    "start:prod": "node -r ./tsconfig-paths-bootstrap.js dist/App.js",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:debug": "node --inspect-brk -r ./tsconfig-paths-bootstrap.js node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {

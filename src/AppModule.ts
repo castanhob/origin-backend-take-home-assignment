@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { RiskModule } from 'src/modules/risk/RiskModule'
+import { RiskModule } from '@risk/RiskModule'
 
 @Module({
   imports: [RiskModule]

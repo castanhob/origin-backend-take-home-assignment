@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { CalculateAutoRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateAutoRiskScoreUseCase'
-import { CalculateDisabilityRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateDisabilityRiskScoreUseCase'
-import { CalculateHomeRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateHomeRiskScoreUseCase'
-import { CalculateLifeRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateLifeRiskScoreUseCase'
-import { CalculateRiskProfileRequest } from 'src/modules/risk/domain/contracts/request/CalculateRiskProfileRequest'
-import { CalculateRiskProfileResponse } from 'src/modules/risk/domain/contracts/response/CalculateRiskProfileResponse'
+import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/CalculateRiskProfileRequest'
+import { CalculateRiskProfileResponse } from '@risk/domain/contracts/response/CalculateRiskProfileResponse'
+import { CalculateAutoRiskScoreUseCase } from '@risk/domain/usecases/CalculateAutoRiskScoreUseCase'
+import { CalculateDisabilityRiskScoreUseCase } from '@risk/domain/usecases/CalculateDisabilityRiskScoreUseCase'
+import { CalculateHomeRiskScoreUseCase } from '@risk/domain/usecases/CalculateHomeRiskScoreUseCase'
+import { CalculateLifeRiskScoreUseCase } from '@risk/domain/usecases/CalculateLifeRiskScoreUseCase'
 
 @Injectable()
 export class CalculateRiskProfileUseCase {

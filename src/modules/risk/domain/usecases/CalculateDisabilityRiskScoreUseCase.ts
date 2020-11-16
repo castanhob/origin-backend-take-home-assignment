@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { MaritalStatusEnum } from 'src/modules/risk/domain/contracts/enum/MaritalStatusEnum'
-import { OwnershipStatusEnum } from 'src/modules/risk/domain/contracts/enum/OwnershipStatusEnum'
-import { RiskScoreEnum } from 'src/modules/risk/domain/contracts/enum/RiskScoreEnum'
-import { CalculateRiskProfileRequest } from 'src/modules/risk/domain/contracts/request/CalculateRiskProfileRequest'
+import { MaritalStatusEnum } from '@risk/domain/contracts/enum/MaritalStatusEnum'
+import { OwnershipStatusEnum } from '@risk/domain/contracts/enum/OwnershipStatusEnum'
+import { RiskScoreEnum } from '@risk/domain/contracts/enum/RiskScoreEnum'
+import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/CalculateRiskProfileRequest'
 
 @Injectable()
 export class CalculateDisabilityRiskScoreUseCase {

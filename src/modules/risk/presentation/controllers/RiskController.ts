@@ -1,8 +1,8 @@
+import { HttpResult } from '@core/global/HttpResult'
 import { Controller, Post, Body, Res } from '@nestjs/common'
+import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/CalculateRiskProfileRequest'
+import { CalculateRiskProfileUseCase } from '@risk/domain/usecases/CalculateRiskProfileUseCase'
 import { Response } from 'express'
-import { HttpResult } from 'src/core/global/HttpResult'
-import { CalculateRiskProfileRequest } from 'src/modules/risk/domain/contracts/request/CalculateRiskProfileRequest'
-import { CalculateRiskProfileUseCase } from '../../domain/usecases/CalculateRiskProfileUseCase'
 
 @Controller('/risk')
 export class RiskController {

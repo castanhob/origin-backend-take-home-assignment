@@ -18,7 +18,15 @@
     "strictNullChecks": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@core": ["src/core"],
+      "@core/*": ["src/core/*"],
+      "@risk": ["src/modules/risk"],
+      "@risk/*": ["src/modules/risk/*"],
+      "@test": ["test"],
+      "@test/*": ["test/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
