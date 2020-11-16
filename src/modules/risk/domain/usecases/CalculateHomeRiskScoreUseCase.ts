@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { DateUtils } from 'src/core/utils/DateUtil'
-import { RiskScoreEnum } from 'src/modules/risk/contract/enum/RiskScoreEnum'
-import { CalculateRiskProfileRequest } from 'src/modules/risk/contract/request/CalculateRiskProfileRequest'
+import { OwnershipStatusEnum } from 'src/modules/risk/domain/contracts/enum/OwnershipStatusEnum'
+import { RiskScoreEnum } from 'src/modules/risk/domain/contracts/enum/RiskScoreEnum'
+import { CalculateRiskProfileRequest } from 'src/modules/risk/domain/contracts/request/CalculateRiskProfileRequest'
 
 @Injectable()
-export class CalculateAutoRiskScoreUseCase {
+export class CalculateHomeRiskScoreUseCase {
   execute(
     baseScore: number,
-    { vehicle, age, income }: CalculateRiskProfileRequest
+    { house, age, income }: CalculateRiskProfileRequest
   ): RiskScoreEnum {
-    if (!vehicle) {
+    if (!house) {
       return RiskScoreEnum.INELIGIBLE
     }
 
@@ -25,7 +25,7 @@ export class CalculateAutoRiskScoreUseCase {
       score--
     }
 
-    if (DateUtils.isYearInPeriod(vehicle.year, 5)) {
+    if (house.ownership_status === OwnershipStatusEnum.MORTGAGED) {
       score++
     }
 

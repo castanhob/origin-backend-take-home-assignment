@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { CalculateAutoRiskScoreUseCase } from 'src/modules/risk/application/usecases/CalculateAutoRiskScoreUseCase/CalculateAutoRiskScoreUseCase'
-import { CalculateDisabilityRiskScoreUseCase } from 'src/modules/risk/application/usecases/CalculateDisabilityRiskScoreUseCase/CalculateDisabilityRiskScoreUseCase'
-import { CalculateHomeRiskScoreUseCase } from 'src/modules/risk/application/usecases/CalculateHomeRiskScoreUseCase/CalculateHomeRiskScoreUseCase'
-import { CalculateLifeRiskScoreUseCase } from 'src/modules/risk/application/usecases/CalculateLifeRiskScoreUseCase/CalculateLifeRiskScoreUseCase'
-import { CalculateRiskProfileUseCase } from 'src/modules/risk/application/usecases/CalculateRiskProfileUseCase/CalculateRiskProfileUseCase'
-import { RiskController } from 'src/modules/risk/input/controllers/RiskController'
+import { CalculateAutoRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateAutoRiskScoreUseCase'
+import { CalculateDisabilityRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateDisabilityRiskScoreUseCase'
+import { CalculateHomeRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateHomeRiskScoreUseCase'
+import { CalculateLifeRiskScoreUseCase } from 'src/modules/risk/domain/usecases/CalculateLifeRiskScoreUseCase'
+import { CalculateRiskProfileUseCase } from 'src/modules/risk/domain/usecases/CalculateRiskProfileUseCase'
+import { RiskController } from 'src/modules/risk/presentation/controllers/RiskController'
 
 @Module({
   controllers: [RiskController],

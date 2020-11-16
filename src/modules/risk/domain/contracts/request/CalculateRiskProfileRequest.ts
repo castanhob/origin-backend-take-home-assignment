@@ -9,8 +9,8 @@ import {
   ValidateNested
 } from 'class-validator'
 import { IsArrayWithExactElements } from 'src/core/decorators/IsArrayWithExactElements'
-import { MaritalStatusEnum } from 'src/modules/risk/contract/enum/MaritalStatusEnum'
-import { OwnershipStatusEnum } from 'src/modules/risk/contract/enum/OwnershipStatusEnum'
+import { MaritalStatusEnum } from 'src/modules/risk/domain/contracts/enum/MaritalStatusEnum'
+import { OwnershipStatusEnum } from 'src/modules/risk/domain/contracts/enum/OwnershipStatusEnum'
 
 class House {
   @IsDefined()
