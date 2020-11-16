@@ -18,27 +18,12 @@ export class CalculateRiskProfileUseCase {
   async execute(
     riskRequest: CalculateRiskProfileRequest
   ): Promise<CalculateRiskProfileResponse> {
-    const baseScore = this.calculateBaseScore(riskRequest.risk_questions)
-
-    const auto = this.calculateAutoRiskLineScoreUseCase.execute(
-      baseScore,
-      riskRequest
-    )
-
+    const auto = this.calculateAutoRiskLineScoreUseCase.execute(riskRequest)
     const disability = this.calculateDisabilityRiskLineScoreUseCase.execute(
-      baseScore,
       riskRequest
     )
-
-    const home = this.calculateHomeRiskScoreUseCase.execute(
-      baseScore,
-      riskRequest
-    )
-
-    const life = this.calculateLifeRiskScoreUseCase.execute(
-      baseScore,
-      riskRequest
-    )
+    const home = this.calculateHomeRiskScoreUseCase.execute(riskRequest)
+    const life = this.calculateLifeRiskScoreUseCase.execute(riskRequest)
 
     return {
       auto,
@@ -46,9 +31,5 @@ export class CalculateRiskProfileUseCase {
       home,
       life
     }
-  }
-
-  private calculateBaseScore(riskQuestions: number[]) {
-    return riskQuestions.reduce((a, b) => a + b, 0)
   }
 }

@@ -6,10 +6,8 @@ import { dataMock } from '@test/utils/dataMock'
 describe('Risk :: Domain :: UseCase :: CalculateAutoRiskUseCase', () => {
   let subject: CalculateAutoRiskScoreUseCase
   let riskProfileRequest: CalculateRiskProfileRequest
-  let baseScore: number
 
   beforeEach(() => {
-    baseScore = 0
     subject = new CalculateAutoRiskScoreUseCase()
   })
 
@@ -17,12 +15,13 @@ describe('Risk :: Domain :: UseCase :: CalculateAutoRiskUseCase', () => {
     describe('and the profile has no vehicle', () => {
       beforeEach(() => {
         riskProfileRequest = dataMock<CalculateRiskProfileRequest>({
+          risk_questions: [0, 0, 0],
           vehicle: undefined
         })
       })
 
       it('returns the score as inelligible', () => {
-        const result = subject.execute(baseScore, riskProfileRequest)
+        const result = subject.execute(riskProfileRequest)
         expect(result).toBe(RiskScoreEnum.INELIGIBLE)
       })
     })

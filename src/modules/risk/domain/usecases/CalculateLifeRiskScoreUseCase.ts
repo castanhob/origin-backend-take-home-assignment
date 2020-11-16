@@ -1,46 +1,33 @@
 import { Injectable } from '@nestjs/common'
+import { RiskScoreBuilder } from '@risk/domain/builder/RiskScoreBuilder'
 import { MaritalStatusEnum } from '@risk/domain/contracts/enum/MaritalStatusEnum'
 import { RiskScoreEnum } from '@risk/domain/contracts/enum/RiskScoreEnum'
 import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/CalculateRiskProfileRequest'
 
 @Injectable()
 export class CalculateLifeRiskScoreUseCase {
-  execute(
-    baseScore: number,
-    { marital_status, dependents, age, income }: CalculateRiskProfileRequest
-  ): RiskScoreEnum {
+  execute({
+    marital_status: maritalStatus,
+    dependents,
+    age,
+    income,
+    risk_questions: riskQuestions
+  }: CalculateRiskProfileRequest): RiskScoreEnum {
     if (age > 60) {
       return RiskScoreEnum.INELIGIBLE
     }
 
-    let score = baseScore
-
-    if (age < 30) {
-      score -= 2
-    } else if (age >= 30 && age <= 40) {
-      score--
-    }
-
-    if (income > 200000) {
-      score--
-    }
-
-    if (dependents > 0) {
-      score++
-    }
-
-    if (marital_status === MaritalStatusEnum.MARRIED) {
-      score++
-    }
-
-    if (score <= 0) {
-      return RiskScoreEnum.ECONOMIC
-    } else if (score >= 1 && score <= 2) {
-      return RiskScoreEnum.REGULAR
-    } else if (score >= 3) {
-      return RiskScoreEnum.RESPONSIBLE
-    } else {
-      return RiskScoreEnum.INELIGIBLE
-    }
+    return new RiskScoreBuilder({
+      maritalStatus,
+      dependents,
+      age,
+      income,
+      riskQuestions
+    })
+      .decreaseScoreByAge()
+      .decreaseScoreByIncome(200000)
+      .increaseScoreByHavingDependents()
+      .increaseScoreByMaritalStatus(MaritalStatusEnum.MARRIED)
+      .result()
   }
 }
