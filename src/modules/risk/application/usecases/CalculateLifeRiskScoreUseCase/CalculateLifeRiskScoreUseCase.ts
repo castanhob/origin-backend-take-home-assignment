@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { MartialStatusEnum } from 'src/modules/risk/contract/enum/MartialStatusEnum'
+import { MaritalStatusEnum } from 'src/modules/risk/contract/enum/MaritalStatusEnum'
 import { RiskScoreEnum } from 'src/modules/risk/contract/enum/RiskScoreEnum'
 import { CalculateRiskProfileRequest } from 'src/modules/risk/contract/request/CalculateRiskProfileRequest'
 
@@ -7,7 +7,7 @@ import { CalculateRiskProfileRequest } from 'src/modules/risk/contract/request/C
 export class CalculateLifeRiskScoreUseCase {
   execute(
     baseScore: number,
-    { martial_status, dependents, age, income }: CalculateRiskProfileRequest
+    { marital_status, dependents, age, income }: CalculateRiskProfileRequest
   ): RiskScoreEnum {
     if (age > 60) {
       return RiskScoreEnum.INELIGIBLE
@@ -29,7 +29,7 @@ export class CalculateLifeRiskScoreUseCase {
       score++
     }
 
-    if (martial_status === MartialStatusEnum.MARRIED) {
+    if (marital_status === MaritalStatusEnum.MARRIED) {
       score++
     }
 

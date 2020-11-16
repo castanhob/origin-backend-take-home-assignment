@@ -9,7 +9,7 @@ import {
   ValidateNested
 } from 'class-validator'
 import { IsArrayWithExactElements } from 'src/core/decorators/IsArrayWithExactElements'
-import { MartialStatusEnum } from 'src/modules/risk/contract/enum/MartialStatusEnum'
+import { MaritalStatusEnum } from 'src/modules/risk/contract/enum/MaritalStatusEnum'
 import { OwnershipStatusEnum } from 'src/modules/risk/contract/enum/OwnershipStatusEnum'
 
 class House {
@@ -44,10 +44,10 @@ export class CalculateRiskProfileRequest {
   income: number
 
   @IsDefined()
-  @IsEnum(MartialStatusEnum, {
-    message: `$propertyName must be a valid enum value (${MartialStatusEnum.MARRIED}, ${MartialStatusEnum.SINGLE}})`
+  @IsEnum(MaritalStatusEnum, {
+    message: `$propertyName must be a valid enum value (${MaritalStatusEnum.MARRIED}, ${MaritalStatusEnum.SINGLE}})`
   })
-  martial_status: MartialStatusEnum
+  marital_status: MaritalStatusEnum
 
   @IsDefined()
   @IsInt({ each: true })
