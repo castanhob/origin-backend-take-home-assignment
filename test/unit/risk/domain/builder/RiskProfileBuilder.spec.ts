@@ -17,9 +17,7 @@ describe('Risk :: Domain :: Builder :: RiskProfileBuilder', () => {
       })
 
       it('adds 1 point to the score', () => {
-        const result = subject.increaseScoreByHouseOwnershipStatus(
-          OwnershipStatusEnum.MORTGAGED
-        ).score
+        const result = subject.increaseScoreByHouseOwnershipStatus(OwnershipStatusEnum.MORTGAGED).score
         expect(result).toBe(1)
       })
     })
@@ -33,9 +31,7 @@ describe('Risk :: Domain :: Builder :: RiskProfileBuilder', () => {
       })
 
       it('adds 1 point to the score', () => {
-        const result = subject.increaseScoreByMaritalStatus(
-          MaritalStatusEnum.MARRIED
-        ).score
+        const result = subject.increaseScoreByMaritalStatus(MaritalStatusEnum.MARRIED).score
         expect(result).toBe(1)
       })
     })
@@ -149,9 +145,7 @@ describe('Risk :: Domain :: Builder :: RiskProfileBuilder', () => {
       })
 
       it('removes 1 point from the score', () => {
-        const result = subject.decreaseScoreByMaritalStatus(
-          MaritalStatusEnum.MARRIED
-        ).score
+        const result = subject.decreaseScoreByMaritalStatus(MaritalStatusEnum.MARRIED).score
         expect(result).toBe(-1)
       })
     })
@@ -166,7 +160,7 @@ describe('Risk :: Domain :: Builder :: RiskProfileBuilder', () => {
       })
 
       it('returns economic', () => {
-        expect(subject.result()).toBe(RiskScoreEnum.ECONOMIC)
+        expect(subject.calculateBaseScore().result()).toBe(RiskScoreEnum.ECONOMIC)
       })
     })
 
@@ -178,7 +172,7 @@ describe('Risk :: Domain :: Builder :: RiskProfileBuilder', () => {
       })
 
       it('returns regular', () => {
-        expect(subject.result()).toBe(RiskScoreEnum.REGULAR)
+        expect(subject.calculateBaseScore().result()).toBe(RiskScoreEnum.REGULAR)
       })
     })
 
@@ -190,7 +184,7 @@ describe('Risk :: Domain :: Builder :: RiskProfileBuilder', () => {
       })
 
       it('returns responsible', () => {
-        expect(subject.result()).toBe(RiskScoreEnum.RESPONSIBLE)
+        expect(subject.calculateBaseScore().result()).toBe(RiskScoreEnum.RESPONSIBLE)
       })
     })
   })

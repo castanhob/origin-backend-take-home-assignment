@@ -5,22 +5,20 @@ import { RiskScoreBuilder } from '@risk/domain/builder/RiskScoreBuilder'
 
 @Injectable()
 export class CalculateAutoRiskScoreUseCase {
-  execute({
-    vehicle,
-    age,
-    income,
-    risk_questions: riskQuestions
-  }: CalculateRiskProfileRequest): RiskScoreEnum {
+  constructor(private readonly riskScoreBuilder: RiskScoreBuilder) {}
+
+  execute({ vehicle, age, income, risk_questions: riskQuestions }: CalculateRiskProfileRequest): RiskScoreEnum {
     if (!vehicle) {
       return RiskScoreEnum.INELIGIBLE
     }
 
-    return new RiskScoreBuilder({
-      vehicle,
-      age,
-      income,
-      riskQuestions
-    })
+    this.riskScoreBuilder.vehicle = vehicle
+    this.riskScoreBuilder.age = age
+    this.riskScoreBuilder.income = income
+    this.riskScoreBuilder.riskQuestions = riskQuestions
+
+    return this.riskScoreBuilder
+      .calculateBaseScore()
       .decreaseScoreByAge()
       .decreaseScoreByIncome(200000)
       .increaseScoreByVehicleProductionYear(5)

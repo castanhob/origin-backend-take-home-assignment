@@ -1,22 +1,29 @@
 import { DateUtils } from '@core/utils/DateUtil'
+import { Injectable } from '@nestjs/common'
 import { MaritalStatusEnum } from '@risk/domain/contracts/enum/MaritalStatusEnum'
 import { OwnershipStatusEnum } from '@risk/domain/contracts/enum/OwnershipStatusEnum'
 import { RiskScoreEnum } from '@risk/domain/contracts/enum/RiskScoreEnum'
 
+@Injectable()
 export class RiskScoreBuilder {
   constructor(params?: Partial<RiskScoreBuilder>) {
     Object.assign(this, params)
-    this.score = this.calculateBaseScore()
   }
 
-  readonly age: number
-  score: number
-  readonly dependents: number
-  readonly income: number
-  readonly maritalStatus: MaritalStatusEnum
-  readonly riskQuestions: number[]
-  readonly house?: { ownership_status: OwnershipStatusEnum }
-  readonly vehicle?: { year: number }
+  age: number
+  dependents: number
+  income: number
+  maritalStatus: MaritalStatusEnum
+  riskQuestions: number[]
+  house?: { ownership_status: OwnershipStatusEnum }
+  vehicle?: { year: number }
+  score = 0
+
+  calculateBaseScore() {
+    this.score = this.riskQuestions?.reduce((a, b) => a + b, 0) || 0
+
+    return this
+  }
 
   decreaseScoreByAge() {
     if (this.age < 30) {
@@ -86,9 +93,5 @@ export class RiskScoreBuilder {
     } else {
       return RiskScoreEnum.INELIGIBLE
     }
-  }
-
-  private calculateBaseScore() {
-    return this.riskQuestions?.reduce((a, b) => a + b, 0) || 0
   }
 }

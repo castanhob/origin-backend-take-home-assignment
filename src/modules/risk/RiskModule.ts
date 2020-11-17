@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { RiskScoreBuilder } from '@risk/domain/builder/RiskScoreBuilder'
 import { CalculateAutoRiskScoreUseCase } from '@risk/domain/usecases/CalculateAutoRiskScoreUseCase'
 import { CalculateDisabilityRiskScoreUseCase } from '@risk/domain/usecases/CalculateDisabilityRiskScoreUseCase'
 import { CalculateHomeRiskScoreUseCase } from '@risk/domain/usecases/CalculateHomeRiskScoreUseCase'
@@ -9,11 +10,12 @@ import { RiskController } from '@risk/presentation/controllers/RiskController'
 @Module({
   controllers: [RiskController],
   providers: [
-    CalculateRiskProfileUseCase,
     CalculateAutoRiskScoreUseCase,
     CalculateDisabilityRiskScoreUseCase,
     CalculateHomeRiskScoreUseCase,
-    CalculateLifeRiskScoreUseCase
+    CalculateLifeRiskScoreUseCase,
+    CalculateRiskProfileUseCase,
+    { provide: RiskScoreBuilder, useValue: new RiskScoreBuilder() }
   ]
 })
 export class RiskModule {}

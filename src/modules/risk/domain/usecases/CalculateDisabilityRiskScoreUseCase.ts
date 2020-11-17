@@ -7,6 +7,8 @@ import { RiskScoreBuilder } from '@risk/domain/builder/RiskScoreBuilder'
 
 @Injectable()
 export class CalculateDisabilityRiskScoreUseCase {
+  constructor(private readonly riskScoreBuilder: RiskScoreBuilder) {}
+
   execute({
     age,
     dependents,
@@ -19,14 +21,15 @@ export class CalculateDisabilityRiskScoreUseCase {
       return RiskScoreEnum.INELIGIBLE
     }
 
-    return new RiskScoreBuilder({
-      age,
-      dependents,
-      house,
-      income,
-      maritalStatus,
-      riskQuestions
-    })
+    this.riskScoreBuilder.age = age
+    this.riskScoreBuilder.dependents = dependents
+    this.riskScoreBuilder.house = house
+    this.riskScoreBuilder.income = income
+    this.riskScoreBuilder.maritalStatus = maritalStatus
+    this.riskScoreBuilder.riskQuestions = riskQuestions
+
+    return this.riskScoreBuilder
+      .calculateBaseScore()
       .decreaseScoreByAge()
       .decreaseScoreByIncome(200000)
       .increaseScoreByHouseOwnershipStatus(OwnershipStatusEnum.MORTGAGED)

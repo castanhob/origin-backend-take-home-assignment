@@ -14,7 +14,7 @@ module.exports = {
   },
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: 'coverage',
-  collectCoverageFrom: ['./src/modules/**/domain/usecases/**/*UseCase.ts'],
+  collectCoverageFrom: ['./src/modules/**/domain/**/**/*.ts'],
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   globals: {

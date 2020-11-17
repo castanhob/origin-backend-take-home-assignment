@@ -15,13 +15,9 @@ export class CalculateRiskProfileUseCase {
     private readonly calculateLifeRiskScoreUseCase: CalculateLifeRiskScoreUseCase
   ) {}
 
-  async execute(
-    riskRequest: CalculateRiskProfileRequest
-  ): Promise<CalculateRiskProfileResponse> {
+  async execute(riskRequest: CalculateRiskProfileRequest): Promise<CalculateRiskProfileResponse> {
     const auto = this.calculateAutoRiskLineScoreUseCase.execute(riskRequest)
-    const disability = this.calculateDisabilityRiskLineScoreUseCase.execute(
-      riskRequest
-    )
+    const disability = this.calculateDisabilityRiskLineScoreUseCase.execute(riskRequest)
     const home = this.calculateHomeRiskScoreUseCase.execute(riskRequest)
     const life = this.calculateLifeRiskScoreUseCase.execute(riskRequest)
 

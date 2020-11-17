@@ -6,6 +6,8 @@ import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/Calc
 
 @Injectable()
 export class CalculateLifeRiskScoreUseCase {
+  constructor(private readonly riskScoreBuilder: RiskScoreBuilder) {}
+
   execute({
     marital_status: maritalStatus,
     dependents,
@@ -17,13 +19,13 @@ export class CalculateLifeRiskScoreUseCase {
       return RiskScoreEnum.INELIGIBLE
     }
 
-    return new RiskScoreBuilder({
-      maritalStatus,
-      dependents,
-      age,
-      income,
-      riskQuestions
-    })
+    this.riskScoreBuilder.maritalStatus = maritalStatus
+    this.riskScoreBuilder.dependents = dependents
+    this.riskScoreBuilder.age = age
+    this.riskScoreBuilder.income = income
+    this.riskScoreBuilder.riskQuestions = riskQuestions
+    return this.riskScoreBuilder
+      .calculateBaseScore()
       .decreaseScoreByAge()
       .decreaseScoreByIncome(200000)
       .increaseScoreByHavingDependents()
