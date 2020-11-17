@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "concurrently --handle-input \"rimraf dist && tsc -w -p tsconfig.build.json\" \"wait-on dist/App.js && nodemon\" ",
     "start:debug": "nest start --debug --watch",
@@ -27,7 +27,8 @@
     "dayjs": "^1.9.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "tsconfig-paths": "^3.9.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",
@@ -50,7 +51,6 @@
     "nodemon": "^2.0.6",
     "ts-loader": "^8.0.8",
     "ts-node": "^9.0.0",
-    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.5",
     "wait-on": "^5.2.0"
   }
