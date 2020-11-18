@@ -6,15 +6,10 @@ import { Response } from 'express'
 
 @Controller('/risk')
 export class RiskController {
-  constructor(
-    private readonly calculateRiskProfileUseCase: CalculateRiskProfileUseCase
-  ) {}
+  constructor(private readonly calculateRiskProfileUseCase: CalculateRiskProfileUseCase) {}
 
   @Post('/profile')
-  async calculateRiskProfile(
-    @Body() body: CalculateRiskProfileRequest,
-    @Res() res: Response
-  ) {
+  async calculateRiskProfile(@Body() body: CalculateRiskProfileRequest, @Res() res: Response) {
     const response = await this.calculateRiskProfileUseCase.execute(body)
     HttpResult.OK(res, response)
   }

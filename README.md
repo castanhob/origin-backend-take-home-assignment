@@ -1,4 +1,206 @@
 # Origin Backend Take-Home Assignment
+
+Origin take home assignment
+Production URL:
+https://origin-backend-bruno-tha.herokuapp.com/risk/profile
+
+```
+POST
+Body: {
+  "age": 35,
+  "dependents": 2,
+  "house": {"ownership_status": "owned"},
+  "income": 0,
+  "marital_status": "married",
+  "risk_questions": [0, 1, 0],
+  "vehicle": {"year": 2018}
+}
+```
+
+# Instructions to Run the Code
+
+## Install the dependencies
+
+After cloning the repository, run the command:
+
+`npm run install`
+
+## Start the application
+
+After installing the dependencies, run the command:
+
+`npm run start:dev`
+
+## Run Tests
+
+All tests:
+
+`npm run test`
+
+Unit tests:
+
+`npm run test:unit`
+
+Integration tests:
+
+`npm run test:integration`
+
+Coverage:
+
+`npm run test:cov`
+
+# Technical Decisions
+
+## NestJS
+
+As a tool to make the take home challenge easier to implement, and having more time to focus on the architecture and design patterns, I have chosen to use [NestJS](https://nestjs.com/). It is a powerful backend tool to build elegant and concise applications, pretty close to what we see when using .NET, SpringBoot or Angular. The main advantages were the use of available abstractions, such as route mapping on the Controllers (NestJS uses [express](https://expressjs.com/pt-br/) behind the scenes) and the embedded Dependency Injection provided by the framework.
+
+## Dependency Injection and Modules
+
+The app is built using modules as a context separation. It means that for every different context, we are having a folder inside the `modules` root folder. Since the take home challenge only required to calculate the risk profile, we only have the `risk` module, but the structure is ready to implement other additional modules during the app lifetime, as needed.
+
+**Example**:
+```
+src
+  - modules
+    - risk
+    - account <- future module to register users and deal with signin / signup for example
+    - ...
+```
+
+By having those modules separated by scopes, we are able to evolve the service in the future by splitting the modules into microservices, for example. Think about a **module** as a very small app.
+
+In order to make tests easier to write and have code being reused frequently, I opted to use DI on this project. It means that a **module** must define which classes are provided to be used on it, and how they are going to be instantiated when required. Every folder inside `modules` has a file responsible for defining those `providers` and the `controllers` to be mapped.
+
+**Example:**
+```ts
+@Module({
+  controllers: [RiskController],
+    providers: [
+      CalculateAutoRiskScoreUseCase,
+      CalculateDisabilityRiskScoreUseCase,
+      CalculateHomeRiskScoreUseCase,
+      CalculateLifeRiskScoreUseCase,
+      CalculateRiskProfileUseCase,
+      { provide: RiskScoreBuilder, useValue: new RiskScoreBuilder() }
+    ]
+})
+export class RiskModule {}
+```
+
+When a class is instantiated, its going to look on the dependency injection tree to check which class/instance it needs to be provided on the constructor.
+
+The app also has a root module, called **AppModule**, which wraps the children modules, composing the entire application:
+
+```ts
+@Module({
+  imports: [RiskModule]
+})
+export class AppModule {}
+```
+
+## Clean Architecture
+
+The classes must have their responsibilities and functions well defined by not having any overlap between them. To achieve that, I implemented the **Clean Architecture** (or one of it's implementations) to separate the code responsibility into well scoped layers:
+
+![Module Layers](https://cdn.discordapp.com/attachments/567747758090354708/778730108683943976/Screenshot_from_2020-11-18_18-14-08.png)
+
+The diagram above shows exactly how every single **module** have its components separated and describes what exactly each layers responsibility. It makes it easy to find and know where each file must be located. It's important to note that it works like a stack. The `Presentation Layer` cannot call the `Data Layer` directly. To do so, it must pass thought the `Domain Layer`, which has all the business logic.
+
+
+## Request Body Validation
+
+Every request that has a body is typed. Those requests have `Decorators` that validates them automatically (NestJS uses `class-validator` behind the scenes). This was the best way to validate the input data for this exercise.
+
+**Example**
+
+```ts
+export class CalculateRiskProfileRequest {
+  @IsDefined()
+  @IsInt()
+  @Min(0)
+  age: number
+  ...
+```
+
+The rule above basically tells us that the property `age` must be defined, must be an integer and has a minimum value 0. If any of those rules are met, an exception is thrown.
+
+## Custom Filters and Pipes
+
+In case of any problem during the code execution or request validation, there are filters which catch those exceptions and convert them to a standard output.
+
+**Example**
+
+```ts
+@Catch(ValidationException)
+export  class  ValidationExceptionFilter implements ExceptionFilter {
+  catch(exception: ValidationException, host: ArgumentsHost) {
+    const response = host.switchToHttp().getResponse<Response>()
+    return HttpResult.BAD_REQUEST(response, exception.message)
+  }
+}
+```
+
+The body for all responses in the app looks like this (for either success or failure):
+
+```
+{
+  statusCode: 200
+  errors: []
+  data: {}
+}
+```
+
+## Controllers
+
+As previously mentioned, every **module** have a collection of **Controllers**, which maps a route.
+
+**Example:**
+
+```ts
+@Controller('/risk')
+export class RiskController {
+  constructor(private readonly calculateRiskProfileUseCase: CalculateRiskProfileUseCase) {}
+
+  @Post('/profile')
+  async calculateRiskProfile(@Body() body: CalculateRiskProfileRequest, @Res() res: Response) {
+    const response = await this.calculateRiskProfileUseCase.execute(body)
+    HttpResult.OK(res, response)
+  }
+}
+```
+
+This **RiskController** has the route `POST /risk/profile` mapped, which will invoke an use case.
+
+## UseCases
+
+**Use cases** are the way chosen to reflect an action in our app. It tries to reflect a "real world" action, making it easy to encapsulate a business logic into a file. So, in case you would want to know where the profile risk calculation is done, you probably will look for the use case with a name close to it, such as `CalculateRiskProfileUseCase`. Use cases can call other use cases or access anything from the **Data Layer** (like repositories).
+
+## Builder
+
+For this particular exercise, I had a problem where my auto, life, disability and home risk scores were repeating the many validations logic inside among them. So I thought about using the **Builder** pattern to solve it. By having a class capable of building something, based on what it has set, made me able to reuse a lot of code, make it cleaner and readable at the same time. Check the **RiskScoreBuilder** to see the results!
+
+## Tests
+
+### Unit
+
+For the unit tests, I mainly focused on testing everything inside `domain/builders` and `domain/usecases`. Those folders have the core business logic of the application. They are testing if the input and output are the expected on every context.
+
+### Integration
+
+Since we only had one endpoint, there is only one integration test. Focusing on all files from `presenter/controllers`, the idea is without mocking anything, making a request to `POST /risk/profile` using an input and comparing the output to a known result makes us able to know that the entire chain is working properly.
+
+# Comments
+
+I hope that you, the person which spent time reading all of this, really like it! I truly put a lot of effort to show how I like to organize my code and how I think it's a good way to build scalable and maintainable software in a healthy way, the best way I could. Of course no pattern is a silver bullet, but to me, that is the best part about all of this: creating collaborative things to make them as great as possible!
+Feel free to ask me anything if any part of the code is not that clear.
+
+That's it for now! Have an amazing day! ❤️
+
+---
+
+# The Take Home Assignment Challenge
+
 Origin offers its users an insurance package personalized to their specific needs without requiring the user to understand anything about insurance. This allows Origin to act as their *de facto* insurance advisor.
 
 Origin determines the user’s insurance needs by asking personal & risk-related questions and gathering information about the user’s vehicle and house. Using this data, Origin determines their risk profile for **each** line of insurance and then suggests an insurance plan (`"economic"`, `"regular"`, `"responsible"`) corresponding to her risk profile.

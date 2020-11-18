@@ -1,13 +1,6 @@
-import {
-  registerDecorator,
-  ValidationOptions,
-  ValidationArguments
-} from 'class-validator'
+import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator'
 
-export const IsArrayWithExactElements = (
-  elementCount: number,
-  validationOptions?: ValidationOptions
-) => {
+export const IsArrayWithExactElements = (elementCount: number, validationOptions?: ValidationOptions) => {
   return (object: any, propertyName: string) =>
     registerDecorator({
       name: `isArrayWithExactElements`,

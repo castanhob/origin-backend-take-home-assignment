@@ -6,16 +6,12 @@ export class ClassValidatorValidationPipe extends ValidationPipe {
   constructor() {
     super({
       exceptionFactory: (errors: ValidationError[]) => {
-        throw new ValidationException(
-          this.mapValidationErrorsToStringArray(errors)
-        )
+        throw new ValidationException(this.mapValidationErrorsToStringArray(errors))
       }
     })
   }
 
-  private mapValidationErrorsToStringArray = (
-    errors: ValidationError[]
-  ): { [key: string]: string[] } => {
+  private mapValidationErrorsToStringArray = (errors: ValidationError[]): { [key: string]: string[] } => {
     const mappedErrors: { [key: string]: string[] } = errors.reduce(
       (acc: { [key: string]: string[] }, err: ValidationError) => {
         if (err.children && err.children.length) {

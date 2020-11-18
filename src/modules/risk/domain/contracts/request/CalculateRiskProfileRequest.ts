@@ -2,15 +2,7 @@ import { IsArrayWithExactElements } from '@core/decorators/IsArrayWithExactEleme
 import { MaritalStatusEnum } from '@risk/domain/contracts/enum/MaritalStatusEnum'
 import { OwnershipStatusEnum } from '@risk/domain/contracts/enum/OwnershipStatusEnum'
 import { Type } from 'class-transformer'
-import {
-  IsDefined,
-  IsEnum,
-  IsIn,
-  IsInstance,
-  IsInt,
-  Min,
-  ValidateNested
-} from 'class-validator'
+import { IsDefined, IsEnum, IsIn, IsInstance, IsInt, Min, ValidateNested } from 'class-validator'
 
 class House {
   @IsDefined()
