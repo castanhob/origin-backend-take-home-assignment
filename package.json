@@ -14,7 +14,8 @@
     "start:prod": "node -r ./tsconfig-paths-bootstrap.js dist/App.js",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:unit": "jest test/unit",
+    "test:integration": "jest test/integration",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r ./tsconfig-paths-bootstrap.js node_modules/.bin/jest --runInBand"
   },

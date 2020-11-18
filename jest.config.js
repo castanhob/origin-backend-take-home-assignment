@@ -14,7 +14,13 @@ module.exports = {
   },
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: 'coverage',
-  collectCoverageFrom: ['./src/modules/**/domain/**/**/*.ts'],
+  collectCoverageFrom: [
+    // integration
+    './src/modules/**/presentation/controllers/**/*.ts',
+    // unit
+    './src/modules/**/domain/builder/**/*.ts',
+    './src/modules/**/domain/usecases/**/*.ts'
+  ],
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   globals: {
