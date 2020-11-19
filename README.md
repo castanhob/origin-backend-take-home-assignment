@@ -1,12 +1,12 @@
 # Origin Backend Take-Home Assignment
 
-Origin take home assignment
-Production URL:
-https://origin-backend-bruno-tha.herokuapp.com/risk/profile
+For this particular exercise, I used `Typescript` and `NestJS`, mostly because they are currently the most familiar technologies to me and I use them on my daily basis, which lets me focus more on the design patterns and code organization, while implementing the solution.
 
+You can check the deployed version of this exercise by making a POST request on https://origin-backend-bruno-tha.herokuapp.com/risk/profile
+
+Body:
 ```
-POST
-Body: {
+{
   "age": 35,
   "dependents": 2,
   "house": {"ownership_status": "owned"},
@@ -18,6 +18,8 @@ Body: {
 ```
 
 # Instructions to Run the Code
+
+First, make sure you have both Node and NPM installed (recommended version 10+).
 
 ## Install the dependencies
 
