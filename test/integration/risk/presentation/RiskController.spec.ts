@@ -33,7 +33,8 @@ describe('Integration :: Risk :: Presenter :: RiskController', () => {
         auto: 'regular',
         disability: 'ineligible',
         home: 'economic',
-        life: 'regular'
+        life: 'regular',
+        umbrella: 'economic'
       }
     }
 

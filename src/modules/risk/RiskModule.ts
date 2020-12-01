@@ -5,6 +5,7 @@ import { CalculateDisabilityRiskScoreUseCase } from '@risk/domain/usecases/Calcu
 import { CalculateHomeRiskScoreUseCase } from '@risk/domain/usecases/CalculateHomeRiskScoreUseCase'
 import { CalculateLifeRiskScoreUseCase } from '@risk/domain/usecases/CalculateLifeRiskScoreUseCase'
 import { CalculateRiskProfileUseCase } from '@risk/domain/usecases/CalculateRiskProfileUseCase'
+import { CalculateUmbrellaRiskScoreUseCase } from '@risk/domain/usecases/CalculateUmbrellaRiskScoreUseCase'
 import { RiskController } from '@risk/presentation/controllers/RiskController'
 
 @Module({
@@ -15,6 +16,7 @@ import { RiskController } from '@risk/presentation/controllers/RiskController'
     CalculateHomeRiskScoreUseCase,
     CalculateLifeRiskScoreUseCase,
     CalculateRiskProfileUseCase,
+    CalculateUmbrellaRiskScoreUseCase,
     { provide: RiskScoreBuilder, useValue: new RiskScoreBuilder() }
   ]
 })

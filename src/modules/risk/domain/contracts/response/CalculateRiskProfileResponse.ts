@@ -5,4 +5,5 @@ export interface CalculateRiskProfileResponse {
   disability: RiskScoreEnum
   home: RiskScoreEnum
   life: RiskScoreEnum
+  umbrella: RiskScoreEnum
 }
