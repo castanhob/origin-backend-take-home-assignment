@@ -1,4 +1,5 @@
 export enum OwnershipStatusEnum {
   MORTGAGED = 'mortgaged',
-  OWNED = 'owned'
+  OWNED = 'owned',
+  RENTED = 'rented'
 }

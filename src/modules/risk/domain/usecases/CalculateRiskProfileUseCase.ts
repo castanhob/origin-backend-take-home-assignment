@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { OwnershipStatusEnum } from '@risk/domain/contracts/enum/OwnershipStatusEnum'
 import { RiskScoreEnum } from '@risk/domain/contracts/enum/RiskScoreEnum'
 import { CalculateRiskProfileRequest } from '@risk/domain/contracts/request/CalculateRiskProfileRequest'
 import { CalculateRiskProfileResponse } from '@risk/domain/contracts/response/CalculateRiskProfileResponse'
@@ -21,16 +22,21 @@ export class CalculateRiskProfileUseCase {
   async execute(riskRequest: CalculateRiskProfileRequest): Promise<CalculateRiskProfileResponse> {
     const auto = this.calculateAutoRiskLineScoreUseCase.execute(riskRequest)
     const disability = this.calculateDisabilityRiskLineScoreUseCase.execute(riskRequest)
-    const home = this.calculateHomeRiskScoreUseCase.execute(riskRequest)
+    const houseLine = this.calculateHomeRiskScoreUseCase.execute(riskRequest)
     const life = this.calculateLifeRiskScoreUseCase.execute(riskRequest)
 
-    const isPreviousEconomic = this.checkEconomicScore([auto, disability, home, life])
+    const isPreviousEconomic = this.checkEconomicScore([auto, disability, houseLine, life])
     const umbrella = this.calculateUmbrellaRiskScoreUseCase.execute(isPreviousEconomic, riskRequest)
+
+    const houseScores = {
+      home: !this.isHouseRented(riskRequest.house?.ownership_status) ? houseLine : undefined,
+      renters: this.isHouseRented(riskRequest.house?.ownership_status) ? houseLine : undefined
+    }
 
     return {
       auto,
       disability,
-      home,
+      ...houseScores,
       life,
       umbrella
     }
@@ -38,5 +44,9 @@ export class CalculateRiskProfileUseCase {
 
   private checkEconomicScore(scores: RiskScoreEnum[]) {
     return scores.some((score) => score === RiskScoreEnum.ECONOMIC)
+  }
+
+  private isHouseRented(ownershipStatus?: OwnershipStatusEnum) {
+    return ownershipStatus === OwnershipStatusEnum.RENTED
   }
 }

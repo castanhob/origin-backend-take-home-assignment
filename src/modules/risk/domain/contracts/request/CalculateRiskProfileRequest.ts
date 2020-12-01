@@ -2,12 +2,13 @@ import { IsArrayWithExactElements } from '@core/decorators/IsArrayWithExactEleme
 import { MaritalStatusEnum } from '@risk/domain/contracts/enum/MaritalStatusEnum'
 import { OwnershipStatusEnum } from '@risk/domain/contracts/enum/OwnershipStatusEnum'
 import { Type } from 'class-transformer'
-import { IsDefined, IsEnum, IsIn, IsInstance, IsInt, Min, ValidateNested } from 'class-validator'
+import { IsDefined, IsEnum, IsIn, IsInstance, IsInt, IsOptional, Min, ValidateNested } from 'class-validator'
+import 'reflect-metadata'
 
 class House {
   @IsDefined()
   @IsEnum(OwnershipStatusEnum, {
-    message: `$property must be a valid enum value (${OwnershipStatusEnum.MORTGAGED}, ${OwnershipStatusEnum.OWNED}})`
+    message: `$property must be a valid enum value (${OwnershipStatusEnum.MORTGAGED}, ${OwnershipStatusEnum.OWNED}, ${OwnershipStatusEnum.RENTED}})`
   })
   ownership_status: OwnershipStatusEnum
 }
@@ -50,11 +51,13 @@ export class CalculateRiskProfileRequest {
   })
   risk_questions: number[]
 
+  @IsOptional()
   @ValidateNested()
   @IsInstance(House)
   @Type(() => House)
   house?: House
 
+  @IsOptional()
   @ValidateNested()
   @IsInstance(Vehicle)
   @Type(() => Vehicle)
